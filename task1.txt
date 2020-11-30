@@ -1,0 +1,70 @@
+#include <iostream>
+#include <regex>
+#include <fstream>
+#include <string>
+
+int main() 
+{
+    /*Using regex to match the patterns in text file to initialise in Z-Kart application*/
+    std::regex email("(\\w+)(\\.)?(\\w+)@[\\w+]+(\\.(\\w+))+");
+    std::regex mobile("^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$");
+    std::regex name("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$");
+    std::regex encryptedpwd("^[a-zA-Z]+(([a-zA-Z ])?[a-zA-Z]*)*$");
+    
+    std::string line, inputfile; 
+    std::cout << "Enter the name of the input file: "; /*Get input file from user*/
+    std::cin >> inputfile; /*Receive a stream of characters from inputfile*/
+    std::ifstream inputfile(zusers_db.txt); /*Using ifstream to fetch info from file*/
+    std::ofstream outputfile("output_zusers.csv"); /*Using ofstream to write data into file*/
+
+    if (inputfile.is_open() && outputfile.is_open()) /*Check both files are open and ready to read data*/
+	{
+        while (getline(inputfile, line)) 
+	    {
+            std::sregex_iterator current(line.begin(), line.end(), email);
+            std::sregex_iterator last;
+            while (current != last) {
+                std::smatch match = *current;
+                outputfile << match.str() << ",\n";
+                current++;
+            }
+
+	while (getline(inputfile, line)) 
+	    {
+            std::sregex_iterator current(line.begin(), line.end(), mobile);
+            std::sregex_iterator last;
+            while (current != last) {
+                std::smatch match = *current;
+                outputfile << match.str() << ",\n";
+                current++;
+            }
+
+	while (getline(inputfile, line)) 
+	    {
+            std::sregex_iterator current(line.begin(), line.end(), name);
+            std::sregex_iterator last;
+            while (current != last) {
+                std::smatch match = *current;
+                outputfile << match.str() << ",\n";
+                current++;
+            }
+	
+	while (getline(inputfile, line)) 
+	    {
+            std::sregex_iterator current(line.begin(), line.end(), encryptedpwd);
+            std::sregex_iterator last;
+            while (current != last) {
+                std::smatch match = *current;
+                outpufile << match.str() << ",\n";
+                current++;
+            }
+        }
+        std::cout << "Data successfully saved in 'output_file.csv'" << std::endl;
+        inputfile.close();
+        outputfile.close();
+    }
+    else {
+        std::cout << "File unable to open! IMP: Check file whether the file exits and start again!!" << std::endl;
+    }
+    return 0;
+} /*End of Code*/
